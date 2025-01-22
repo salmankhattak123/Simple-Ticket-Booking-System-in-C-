@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    // Available movies
+    string movies[3] = {"Movie 1: Action", "Movie 2: Comedy", "Movie 3: Drama"};
+    
+    // Available tickets for each movie (let's assume there are 20 tickets per movie)
+    int availableTickets[3] = {20, 20, 20};
+    
+    int movieChoice, ticketsToBook;
+    string userName;
+    
+    cout << "Welcome to the Simple Ticket Booking System!\n";
+    
+    // Asking for the user's name
+    cout << "Enter your name: ";
+    getline(cin, userName);
+    
+    while (true) {
+        cout << "\n--- Movie List ---\n";
+        // Display available movies
+        for (int i = 0; i < 3; i++) {
+            cout << (i + 1) << ". " << movies[i] << " - " << availableTickets[i] << " tickets available\n";
+        }
+        
+        cout << "\nEnter the number of the movie you'd like to book tickets for (1-3): ";
+        cin >> movieChoice;
+
+        if (movieChoice < 1 || movieChoice > 3) {
+            cout << "Invalid choice. Please select a number between 1 and 3.\n";
+            continue;
+        }
+        
+        // Check if tickets are available
+        if (availableTickets[movieChoice - 1] == 0) {
+            cout << "Sorry, no tickets are available for this movie.\n";
+        } else {
+            cout << "How many tickets would you like to book? ";
+            cin >> ticketsToBook;
+
+            // Validate ticket booking
+            if (ticketsToBook > availableTickets[movieChoice - 1]) {
+                cout << "Sorry, not enough tickets available. We have only " << availableTickets[movieChoice - 1] << " tickets left.\n";
+            } else if (ticketsToBook <= 0) {
+                cout << "Please enter a valid number of tickets.\n";
+            } else {
+                availableTickets[movieChoice - 1] -= ticketsToBook;
+                cout << "You have successfully booked " << ticketsToBook << " tickets for " << movies[movieChoice - 1] << ".\n";
+                cout << "Tickets remaining for " << movies[movieChoice - 1] << ": " << availableTickets[movieChoice - 1] << "\n";
+            }
+        }
+        
+        // Ask if the user wants to continue booking tickets
+        char continueChoice;
+        cout << "\nWould you like to book tickets for another movie? (Y/N): ";
+        cin >> continueChoice;
+
+        if (continueChoice == 'N' || continueChoice == 'n') {
+            cout << "\nThank you for using the Ticket Booking System. Goodbye, " << userName << "!\n";
+            break;
+        }
+    }
+    
+    return 0;
+}
